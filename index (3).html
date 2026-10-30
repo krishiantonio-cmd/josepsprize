@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A prize for Josep 💝</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #24122E;
+    --night-2: #351A42;
+    --rose: #F2A7B8;
+    --peach: #FFC9A8;
+    --lilac: #C3ADEB;
+    --gold: #F5C76B;
+    --ivory: #FFF4EC;
+    --ink: #3A1A33;
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ivory);
+    background:
+      radial-gradient(1.5px 1.5px at 12% 18%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 12%, #fff9 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 88% 46%, #fff6 50%, transparent 51%),
+      radial-gradient(1px 1px at 6% 62%, #fff7 50%, transparent 51%),
+      radial-gradient(1px 1px at 40% 8%, #fff8 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 64% 84%, #fff5 50%, transparent 51%),
+      radial-gradient(ellipse at 50% 0%, var(--night-2), var(--night) 70%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2.5rem 1.25rem 2rem;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    font-family: "Caprasimo", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(2.4rem, 9vw, 4rem);
+    line-height: 1.02;
+    margin: 0 0 .75rem;
+    color: var(--peach);
+    text-shadow: 0 3px 0 #8a3b5c;
+    max-width: 14ch;
+  }
+  .lede {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    max-width: 34ch;
+    margin: 0 auto 2rem;
+    color: #f3dfe6;
+  }
+
+  /* ---------- Wheel ---------- */
+  .stage {
+    position: relative;
+    width: min(88vw, 380px);
+    aspect-ratio: 1;
+    margin: 0 auto 1.75rem;
+  }
+  .pointer {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    z-index: 3;
+    filter: drop-shadow(0 3px 0 #8a3b5c);
+  }
+  .wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px var(--ivory), 0 0 0 16px var(--rose), 0 18px 50px #0008;
+    transform: rotate(0deg);
+    transition: transform 5.2s cubic-bezier(.15,.75,.1,1);
+  }
+  .wheel svg { width: 100%; height: 100%; display: block; }
+  .hub {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: 22%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--ivory);
+    display: grid;
+    place-items: center;
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    box-shadow: 0 4px 0 #d9b9c4, inset 0 -3px 0 #f0d9e0;
+    z-index: 2;
+  }
+  .hub.beat { animation: beat .9s ease-in-out infinite; }
+  @keyframes beat { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.1); } }
+
+  .spin {
+    font-family: "Caprasimo", Georgia, serif;
+    font-size: 1.35rem;
+    color: var(--ink);
+    background: var(--gold);
+    border: 0;
+    border-radius: 999px;
+    padding: .9rem 2.2rem;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #b8862e;
+    transition: transform .12s, box-shadow .12s;
+  }
+  .spin:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #b8862e; }
+  .spin:active { transform: translateY(3px); box-shadow: 0 2px 0 #b8862e; }
+  .spin:disabled { opacity: .55; cursor: default; transform: none; box-shadow: 0 5px 0 #b8862e; }
+  .spin:focus-visible, .claim:focus-visible { outline: 3px solid var(--ivory); outline-offset: 4px; }
+  .hint { font-size: .95rem; color: #d9c3cf; margin: 1rem 0 0; min-height: 1.4em; }
+
+  /* ---------- Voucher ---------- */
+  .voucher {
+    display: none;
+    position: relative;
+    width: min(92vw, 400px);
+    margin: 2.5rem auto 0;
+    padding: 2rem 1.75rem 1.75rem;
+    color: var(--ink);
+    background: var(--ivory);
+    border-radius: 18px;
+    -webkit-mask: radial-gradient(circle 16px at 0 58%, #0000 98%, #000) left / 51% 100% no-repeat,
+                  radial-gradient(circle 16px at 100% 58%, #0000 98%, #000) right / 51% 100% no-repeat;
+            mask: radial-gradient(circle 16px at 0 58%, #0000 98%, #000) left / 51% 100% no-repeat,
+                  radial-gradient(circle 16px at 100% 58%, #0000 98%, #000) right / 51% 100% no-repeat;
+  }
+  .voucher.show { display: block; animation: pop .6s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes pop { from { transform: scale(.6) rotate(-6deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  .voucher .for { font-size: 1rem; margin: 0; color: #8a3b5c; font-weight: 500; }
+  .voucher .emoji { font-size: 3.4rem; margin: .4rem 0 .2rem; }
+  .voucher h2 {
+    font-family: "Caprasimo", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.7rem, 7vw, 2.1rem);
+    line-height: 1.1;
+    margin: 0 0 .6rem;
+  }
+  .voucher .desc { line-height: 1.5; margin: 0 auto 1.4rem; max-width: 30ch; }
+  .tear {
+    border: 0;
+    border-top: 2px dashed #e2c3cf;
+    margin: 0 -.5rem 1.2rem;
+  }
+  .fine { font-size: .85rem; line-height: 1.45; color: #6d4b60; margin: 0 0 1.3rem; }
+  .claim {
+    font-family: "Figtree", sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ivory);
+    background: #B8476F;
+    border: 0;
+    border-radius: 999px;
+    padding: .85rem 1.8rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #7d2b4a;
+  }
+  .claim:active { transform: translateY(2px); box-shadow: 0 2px 0 #7d2b4a; }
+  .stamp {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1.2rem;
+    padding: .35rem .8rem;
+    border: 3px solid #B8476F;
+    border-radius: 8px;
+    color: #B8476F;
+    font-family: "Caprasimo", Georgia, serif;
+    font-size: 1.3rem;
+    transform: rotate(12deg);
+    opacity: .9;
+  }
+  .claimed .stamp { display: block; animation: stamp .35s ease-out both; }
+  .claimed .claim { display: none; }
+  .claimed-note { display: none; font-weight: 500; margin: 0; color: #8a3b5c; }
+  .claimed .claimed-note { display: block; }
+  @keyframes stamp { from { transform: rotate(12deg) scale(2.4); opacity: 0; } to { transform: rotate(12deg) scale(1); opacity: .9; } }
+
+  footer {
+    margin-top: auto;
+    padding-top: 3rem;
+    font-size: .95rem;
+    color: #bfa5b6;
+    user-select: none;
+  }
+
+  canvas#fx { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wheel { transition-duration: .8s; }
+    .hub.beat, .voucher.show, .claimed .stamp { animation: none; }
+  }
+</style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+
+  <h1>Josep, you’ve won a prize</h1>
+  <p class="lede">Spin the wheel to find out what tonight holds. One spin only, so make it count.</p>
+
+  <div class="stage">
+    <svg class="pointer" viewBox="0 0 44 52" aria-hidden="true">
+      <path d="M22 50 C 10 34, 2 26, 2 15 A 11 11 0 0 1 22 9 A 11 11 0 0 1 42 15 C 42 26, 34 34, 22 50 Z" fill="#FFF4EC" stroke="#B8476F" stroke-width="3"/>
+    </svg>
+    <div class="wheel" id="wheel"></div>
+    <div class="hub beat" id="hub" aria-hidden="true">💝</div>
+  </div>
+
+  <button class="spin" id="spin">Spin the wheel</button>
+  <p class="hint" id="hint" aria-live="polite"></p>
+
+  <section class="voucher" id="voucher" aria-live="polite">
+    <div class="stamp">Claimed</div>
+    <p class="for">A voucher for Josep</p>
+    <div class="emoji" id="vEmoji"></div>
+    <h2 id="vTitle"></h2>
+    <p class="desc" id="vDesc"></p>
+    <hr class="tear">
+    <p class="fine">Valid tonight only, <span id="vDate"></span>. Non-transferable, non-refundable, and kisses are included at no extra cost.</p>
+    <button class="claim" id="claim">Claim my prize</button>
+    <p class="claimed-note" id="claimedNote"></p>
+  </section>
+
+  <footer id="footer">Made with love, just for you ♥</footer>
+
+<script>
+(() => {
+  const PRIZES = {
+    back:   { emoji: "💆‍♂️", label: ["Back", "massage"],   time: "30 min", color: "#F2A7B8",
+              title: "30-minute back massage",
+              desc: "Lie down, get comfy and let all the knots in your shoulders melt away. You don’t have to lift a finger." },
+    facial: { emoji: "✨",    label: ["Premium", "facial"], time: "15 min", color: "#FFC9A8",
+              title: "15-minute premium facial",
+              desc: "Cleanse, mask and a gentle face massage. You’ll come out glowing, guaranteed." },
+    body:   { emoji: "🌙",    label: ["Full body", "massage"], time: "30 min", color: "#C3ADEB",
+              title: "30-minute full body massage",
+              desc: "The jackpot. Warm oil, soft music, and half an hour of head-to-toe relaxation." }
+  };
+  const SEGMENTS = ["back", "facial", "body", "back", "facial", "body"];
+  const SEG = 360 / SEGMENTS.length;
+  const STORE_KEY = "josep-prize-v1";
+
+  const wheel = document.getElementById("wheel");
+  const hub = document.getElementById("hub");
+  const spinBtn = document.getElementById("spin");
+  const hint = document.getElementById("hint");
+  const voucher = document.getElementById("voucher");
+  const claimBtn = document.getElementById("claim");
+
+  // ---------- Build wheel ----------
+  const R = 200, C = 200;
+  const pt = (deg, r) => {
+    const a = deg * Math.PI / 180;
+    return [C + r * Math.sin(a), C - r * Math.cos(a)];
+  };
+  let svg = `<svg viewBox="0 0 400 400" role="img" aria-label="Prize wheel with back massage, premium facial and full body massage">`;
+  SEGMENTS.forEach((key, i) => {
+    const p = PRIZES[key];
+    const a0 = i * SEG, a1 = a0 + SEG, mid = a0 + SEG / 2;
+    const [x0, y0] = pt(a0, R), [x1, y1] = pt(a1, R);
+    svg += `<path d="M${C} ${C} L${x0} ${y0} A${R} ${R} 0 0 1 ${x1} ${y1} Z" fill="${p.color}" stroke="#FFF4EC" stroke-width="3"/>`;
+    svg += `<g transform="rotate(${mid} ${C} ${C})" fill="#3A1A33" text-anchor="middle" font-family="Figtree, sans-serif">
+      <text x="${C}" y="${C - 150}" font-size="30">${p.emoji}</text>
+      <text x="${C}" y="${C - 118}" font-size="15" font-weight="700">${p.label[0]}</text>
+      <text x="${C}" y="${C - 101}" font-size="15" font-weight="700">${p.label[1]}</text>
+      <text x="${C}" y="${C - 83}" font-size="12.5" font-weight="500" opacity=".75">${p.time}</text>
+    </g>`;
+  });
+  svg += `</svg>`;
+  wheel.innerHTML = svg;
+
+  // ---------- Storage ----------
+  const load = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY)); } catch { return null; } };
+  const save = (v) => { try { localStorage.setItem(STORE_KEY, JSON.stringify(v)); } catch {} };
+
+  // ---------- Voucher ----------
+  const today = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+  document.getElementById("vDate").textContent = today;
+
+  function showVoucher(key, animate) {
+    const p = PRIZES[key];
+    document.getElementById("vEmoji").textContent = p.emoji;
+    document.getElementById("vTitle").textContent = p.title;
+    document.getElementById("vDesc").textContent = p.desc;
+    voucher.classList.add("show");
+    if (!animate) voucher.style.animation = "none";
+    if (animate) setTimeout(() => voucher.scrollIntoView({ behavior: "smooth", block: "center" }), 250);
+  }
+
+  function markClaimed(at) {
+    voucher.classList.add("claimed");
+    const t = new Date(at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    document.getElementById("claimedNote").textContent = `Claimed at ${t}. Show me this screen to redeem ♥`;
+  }
+
+  // ---------- Spin ----------
+  let rotation = 0;
+  function spin() {
+    spinBtn.disabled = true;
+    hub.classList.remove("beat");
+    hint.textContent = "Round and round it goes…";
+
+    const idx = Math.floor(Math.random() * SEGMENTS.length);
+    const jitter = (Math.random() - .5) * (SEG * 0.7);
+    const landAt = idx * SEG + SEG / 2 + jitter;          // angle (clockwise from top) under the pointer
+    const extra = (360 - landAt - (rotation % 360) + 720) % 360;
+    rotation += 360 * 6 + extra;
+    wheel.style.transform = `rotate(${rotation}deg)`;
+
+    const key = SEGMENTS[idx];
+    save({ key, rotation, claimedAt: null });
+
+    wheel.addEventListener("transitionend", function done() {
+      wheel.removeEventListener("transitionend", done);
+      hint.textContent = "You won! 🎉";
+      spinBtn.textContent = "Already spun";
+      hearts();
+      showVoucher(key, true);
+    });
+  }
+
+  spinBtn.addEventListener("click", spin);
+
+  claimBtn.addEventListener("click", () => {
+    const state = load() || {};
+    state.claimedAt = Date.now();
+    save(state);
+    markClaimed(state.claimedAt);
+    hearts();
+  });
+
+  // Secret reset: double-click (or double-tap) the footer
+  document.getElementById("footer").addEventListener("dblclick", () => {
+    try { localStorage.removeItem(STORE_KEY); } catch {}
+    location.reload();
+  });
+
+  // ---------- Restore previous spin ----------
+  const prev = load();
+  if (prev && PRIZES[prev.key]) {
+    rotation = prev.rotation || 0;
+    wheel.style.transition = "none";
+    wheel.style.transform = `rotate(${rotation}deg)`;
+    hub.classList.remove("beat");
+    spinBtn.disabled = true;
+    spinBtn.textContent = "Already spun";
+    hint.textContent = "No second chances, mister. Here’s your prize:";
+    showVoucher(prev.key, false);
+    if (prev.claimedAt) markClaimed(prev.claimedAt);
+  }
+
+  // ---------- Heart confetti ----------
+  const cv = document.getElementById("fx");
+  const ctx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function resize() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+  addEventListener("resize", resize); resize();
+
+  function heartPath(x, y, s) {
+    ctx.beginPath();
+    ctx.moveTo(x, y + s * .3);
+    ctx.bezierCurveTo(x, y, x - s * .5, y, x - s * .5, y + s * .3);
+    ctx.bezierCurveTo(x - s * .5, y + s * .6, x, y + s * .8, x, y + s);
+    ctx.bezierCurveTo(x, y + s * .8, x + s * .5, y + s * .6, x + s * .5, y + s * .3);
+    ctx.bezierCurveTo(x + s * .5, y, x, y, x, y + s * .3);
+    ctx.fill();
+  }
+
+  function hearts() {
+    if (reduce) return;
+    const colors = ["#F2A7B8", "#FFC9A8", "#C3ADEB", "#F5C76B", "#FFF4EC", "#B8476F"];
+    const d = devicePixelRatio;
+    const parts = Array.from({ length: 90 }, () => ({
+      x: cv.width / 2 + (Math.random() - .5) * 80 * d,
+      y: cv.height * .45,
+      vx: (Math.random() - .5) * 14 * d,
+      vy: (-Math.random() * 16 - 6) * d,
+      s: (10 + Math.random() * 14) * d,
+      r: Math.random() * Math.PI,
+      vr: (Math.random() - .5) * .2,
+      c: colors[Math.floor(Math.random() * colors.length)]
+    }));
+    let frame = 0;
+    (function tick() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      parts.forEach(p => {
+        p.vy += .45 * d; p.vx *= .99;
+        p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.fillStyle = p.c;
+        heartPath(0, -p.s / 2, p.s);
+        ctx.restore();
+      });
+      if (++frame < 160) requestAnimationFrame(tick);
+      else ctx.clearRect(0, 0, cv.width, cv.height);
+    })();
+  }
+})();
+</script>
+</body>
+</html>
